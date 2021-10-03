@@ -1,0 +1,69 @@
+package com.smart.contact.controller;
+
+import java.security.Principal;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.smart.contact.dao.UserRepository;
+import com.smart.contact.entities.Contact;
+import com.smart.contact.entities.User;
+
+@Controller
+@RequestMapping("/user")
+public class UserController {
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	
+	// method for adding common data to response
+	@ModelAttribute
+	public void addCommonData(Model model, Principal principal) {
+		
+		String userName = principal.getName();
+		System.out.println("User Name:- " +userName);
+		
+		User user = userRepository.getUserByUserName(userName);
+		
+		System.out.println("User Details:- " +user);
+		
+		model.addAttribute("user", user);
+		
+	}
+
+	// dashboard home
+	@RequestMapping("/index")
+	public String dashboard(Model model, Principal principal) {
+		
+		model.addAttribute("title", "User Dashboard");
+		return  "normal/user_dashboard";
+	}
+	
+	// open add contact form handler
+	
+	@GetMapping("/add-contact")
+	public String openAddContactForm(Model model) {
+		
+		model.addAttribute("title", "Add Contact Form");
+		model.addAttribute("contact", new Contact());
+		
+		return "normal/add_contact_form";
+	}
+	
+	// processing add contact form
+	
+	@PostMapping("/process-contact")
+	public String processContact(@ModelAttribute Contact contact) {
+		
+		System.out.println("Data:- " +contact);
+		
+		return "normal/add_contact_form";
+	}
+	
+}
