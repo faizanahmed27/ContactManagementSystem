@@ -14,28 +14,28 @@ public class Contact {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "contactId", length = 10)
+	@Column(name = "contactId")
 	private int cid;
 	
-	@Column(name = "contactName", length = 20)
+	@Column(name = "contactName")
 	private String name;
 	
-	@Column(name = "nickName", length = 5)
+	@Column(name = "nickName")
 	private String nickname;
 	
-	@Column(name = "contactWork", length = 20)
+	@Column(name = "contactWork")
 	private String work;
 	
-	@Column(name = "contactEmail", length = 20)
+	@Column(name = "contactEmail")
 	private String email;
 	
-	@Column(name = "contactPhone", length = 15)
+	@Column(name = "contactPhone")
 	private String phone;
 	
 	@Column(name = "imageURL")
 	private String image;
 	
-	@Column(name = "contactDescription", length = 1000)
+	@Column(name = "contactDescription", length = 10000)
 	private String description;
 	
 	@ManyToOne
@@ -118,12 +118,12 @@ public class Contact {
 		this.user = user;
 	}
 
-	@Override
-	public String toString() {
-		return "Contact [cid=" + cid + ", name=" + name + ", nickname=" + nickname + ", work=" + work + ", email="
-				+ email + ", phone=" + phone + ", image=" + image + ", description=" + description + ", user=" + user
-				+ "]";
-	}
+	/*
+	 * @Override public String toString() { return "Contact [cid=" + cid + ", name="
+	 * + name + ", nickname=" + nickname + ", work=" + work + ", email=" + email +
+	 * ", phone=" + phone + ", image=" + image + ", description=" + description +
+	 * ", user=" + user + "]"; }
+	 */
 
 	
 }

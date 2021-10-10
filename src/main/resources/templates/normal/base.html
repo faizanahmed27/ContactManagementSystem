@@ -62,7 +62,7 @@
     <span onclick="toggleSidebar()" class="closeBtn">&times;</span>
     
     <a th:href="@{/user/index}" class="item"><i class="fas fa-house-user"></i> Home</a>
-    <a href="#" class="item"><i class="fas fa-id-badge"></i> View Contacts</a>
+    <a th:href="@{/user/view-contacts}" class="item"><i class="fas fa-id-badge"></i> View Contacts</a>
     <a th:href="@{/user/add-contact}" class="item"><i class="fas fa-id-card"></i> Add Contacts</a>
     <a href="#" class="item"><i class="fas fa-users"></i> Your Profile</a>
     <a href="#" class="item"><i class="fas fa-users-cog"></i> Setting</a>
@@ -78,6 +78,20 @@
     <div class="content mt-5">
     
     <i onclick="toggleSidebar()" class="fas fa-bars m-3"></i>
+    
+    <!-- success message after saved contacts  -->
+    
+    		<div th:if=${session.message} class="container">
+    		
+    		<div th:classappend="${'alert-'+session.message.type}" class="alert text-center" role="alert">
+  			
+  			<span th:text="${session.message.content}"></span>
+  			
+			</div>
+			
+			<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+    		
+    		</div>
     
     <div th:replace="${content}"></div>
     

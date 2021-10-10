@@ -38,7 +38,7 @@
 								
 								</div>
 								
-								<input type="text" id="firstName" name="name" placeholder="Enter Name Here" class="form-control"/>
+								<input required type="text" id="firstName" name="name" placeholder="Enter Name Here" class="form-control"/>
 								
 								</div>
 
@@ -56,7 +56,7 @@
 								
 								</div>
 								
-								<input type="text" id="nickName" name="nickname" placeholder="Enter Nick Name Here" class="form-control"/>
+								<input required type="text" id="nickName" name="nickname" placeholder="Enter Nick Name Here" class="form-control"/>
 								
 								</div>
 								
@@ -74,7 +74,7 @@
 								
 								</div>
 								
-								<input type="text" id="work" name="work" placeholder="Enter Your Work Here" class="form-control"/>
+								<input required type="text" id="work" name="work" placeholder="Enter Your Work Here" class="form-control"/>
 								
 								</div>
 								
@@ -92,7 +92,7 @@
 								
 								</div>
 								
-								<input type="email" id="email" name="email" placeholder="Enter Your Email Here" class="form-control"/>
+								<input required type="email" id="email" name="email" placeholder="Enter Your Email Here" class="form-control"/>
 								
 								</div>
 								
@@ -110,7 +110,7 @@
 								
 								</div>
 								
-								<input type="number" id="phone" name="phone" placeholder="Enter Your Number Here" class="form-control"/>
+								<input required type="number" id="phone" name="phone" placeholder="Enter Your Number Here" class="form-control"/>
 								
 								</div>
 								
@@ -118,7 +118,7 @@
 								
 								<div class="form-group mt-3">
 								
-								<textarea placeholder="Enter your description Here" name="description" id="description" class="form-control" rows="10"></textarea>
+								<textarea placeholder="Enter your description Here" name="description" id="mytextarea" class="form-control" rows="10"></textarea>
 								
 								</div>
 								
@@ -147,6 +147,16 @@
 			</div>
 
 		</div>
+		
+		<!-- Tiny MCE Editor  -->
+		
+		<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+		
+		<script>
+      tinymce.init({
+        selector: '#mytextarea'
+      });
+    </script>
 
 	</section>
 
