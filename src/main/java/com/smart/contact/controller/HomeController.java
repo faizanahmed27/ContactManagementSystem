@@ -100,7 +100,7 @@ public class HomeController {
 
 	}
 	
-	// hander for custom login
+	// handler for custom login
 	@GetMapping("/signin")
 	public String customLogin() {
 		
