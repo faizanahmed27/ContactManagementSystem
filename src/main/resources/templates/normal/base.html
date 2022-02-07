@@ -16,6 +16,7 @@
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
 	
     <title th:text="${title}">Base HTML</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   </head>
   <body>
     
@@ -61,12 +62,12 @@
     
     <span onclick="toggleSidebar()" class="closeBtn">&times;</span>
     
-    <a th:href="@{/user/index}" class="item"><i class="fas fa-house-user"></i> Home</a>
-    <a th:href="@{/user/view-contacts/0}" class="item"><i class="fas fa-id-badge"></i> View Contacts</a>
-    <a th:href="@{/user/add-contact}" class="item"><i class="fas fa-id-card"></i> Add Contacts</a>
-    <a th:href="@{/user/getUser/profile}" class="item"><i class="fas fa-users"></i> Your Profile</a>
-    <a href="#" class="item"><i class="fas fa-users-cog"></i> Setting</a>
-    <a th:href="@{/logout}" class="item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <a id="home-link" th:href="@{/user/index}" class="item active"><i class="fas fa-house-user"></i> Home</a>
+    <a id="view-link" th:href="@{/user/view-contacts/0}" class="item"><i class="fas fa-id-badge"></i> View Contacts</a>
+    <a id="add-link" th:href="@{/user/add-contact}" class="item"><i class="fas fa-id-card"></i> Add Contacts</a>
+    <a id="profile-link" th:href="@{/user/getUser/profile}" class="item"><i class="fas fa-users"></i> Your Profile</a>
+    <a id="setting-link" href="#" class="item"><i class="fas fa-users-cog"></i> Setting</a>
+    <a id="logout-link" th:href="@{/logout}" class="item"><i class="fas fa-sign-out-alt"></i> Logout</a>
     <div class="divider"></div>
     
     </div>
@@ -102,7 +103,7 @@
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
     <!-- Option 2: jQuery, Popper.js, and Bootstrap JS -->
