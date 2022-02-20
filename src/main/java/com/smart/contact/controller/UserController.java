@@ -6,17 +6,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +44,12 @@ public class UserController {
 
 	@Autowired
 	ContactRepository contactRepository;
+	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder; 
+	
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	// method for adding common data to response
 	@ModelAttribute
@@ -305,6 +313,52 @@ public class UserController {
 		System.out.println("User Profile Details:- " +user);
 		
 		return "normal/user_profile";
+	}
+	
+	// open settings hanler or page
+	@GetMapping("/settings")
+	public String openSettings() {
+		
+		return "normal/settings";
+	}
+	
+	// change password handler
+	
+	@PostMapping("/change-password")
+	public String changePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, Principal principal, HttpSession session) {
+		
+		System.out.println("OLD PASSWORD: " +oldPassword);
+		System.out.println("NEW PASSWORD: " +newPassword);
+		
+		String userName = principal.getName();
+		User currentUser = this.userRepository.getUserByUserName(userName);
+		
+		System.out.println("CURRENT PASSWORD : " +currentUser.getPassword());
+		//logger.debug("Mismatch old password {} with new password {} : " , oldPassword, newPassword);
+		
+		if(this.bCryptPasswordEncoder.matches(oldPassword, currentUser.getPassword())) {
+			
+			// change password
+			
+			
+			
+			
+			currentUser.setPassword(this.bCryptPasswordEncoder.encode(newPassword));
+			this.userRepository.save(currentUser);
+			
+			logger.info("Mismatch old password : {} with new password : {} " , oldPassword, newPassword);
+			
+			logger.info("New password has been change successfuly:  {} " , newPassword);
+			session.setAttribute("message", new Message("Your password is successfully changed", "success"));
+			
+		}else {
+			
+			// error...
+			session.setAttribute("message", new Message("Please enter correct old password !!!", "danger"));
+			return "redirect:/user/settings";
+		}
+		
+		return "redirect:/user/index";
 	}
 
 }
