@@ -325,7 +325,9 @@ public class UserController {
 	// change password handler
 	
 	@PostMapping("/change-password")
-	public String changePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, Principal principal, HttpSession session) {
+	public String changePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, Principal principal, HttpSession session, Model model) {
+		
+		model.addAttribute("title", "Setting Page");
 		
 		System.out.println("OLD PASSWORD: " +oldPassword);
 		System.out.println("NEW PASSWORD: " +newPassword);
