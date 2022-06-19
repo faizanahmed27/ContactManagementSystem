@@ -77,7 +77,7 @@ const paymentStart = () =>{
     console.log(amount);
     if(amount=='' || amount==null){
         //alert("Amount can not be blank or null");
-        swal("Failed !!", "Amount can not be blank or null !!", "error");
+       swal("Failed !!", "Amount can not be blank or null !!", "error");
         return;
     }
 
@@ -109,7 +109,10 @@ const paymentStart = () =>{
                         console.log(response.razorpay_signature);
                         console.log('Payment successful !!');
                         //alert("Congrats !! Payment successfull !!");
-                        swal("Good job!", "Congrats !! Payment successfull !!", "success");
+
+                        updatePaymentOnServer(response.razorpay_payment_id, response.razorpay_order_id, "paid");
+
+                       // swal("Good job!", "Congrats !! Payment successfull !!", "success");
 
                     },
                     "prefill": {
@@ -148,4 +151,21 @@ const paymentStart = () =>{
             alert("Something went wrong !!");
         }
     })
+}
+
+function updatePaymentOnServer(payment_id, order_id, status)
+{
+    $.ajax({
+        url: "/user/update/order",
+        data: JSON.stringify({payment_id: payment_id, order_id: order_id, status: status}),
+        contentType: "application/json",
+        type: "POST",
+        dataType: "json",
+        success:function(response){
+            swal("Good job!", "Congrats !! Payment successfull !!", "success");
+        },
+        error:function(error){
+            swal("Failed !!", "Your payment is successfull, but we did not get on server", "we will contact you as soon as possible");
+        },
+    });
 }

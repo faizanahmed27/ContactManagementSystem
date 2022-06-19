@@ -38,6 +38,11 @@ public class MyOrder {
 	@JoinColumn(name = "ORDER_USER_ID")
 	private User user;
 
+	public MyOrder() {
+		super();
+
+	}
+
 	public MyOrder(Long id, String orderId, int amount, String receipt, String status, String paymentId, User user) {
 		super();
 		this.id = id;
