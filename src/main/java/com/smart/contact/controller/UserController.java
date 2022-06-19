@@ -6,11 +6,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 import com.smart.contact.dao.ContactRepository;
 import com.smart.contact.dao.UserRepository;
 import com.smart.contact.entities.Contact;
@@ -361,6 +368,34 @@ public class UserController {
 		}
 		
 		return "redirect:/user/index";
+	}
+	
+	// creating order - payment gateway
+	@PostMapping("/create/order")
+	@ResponseBody
+	public String createOrder(@RequestBody Map<String, Object> data) throws RazorpayException {
+		
+		logger.info("Data {} : ", data);
+		
+		int amt = Integer.parseInt(data.get("amount").toString());
+		
+		RazorpayClient razorpayClient = new RazorpayClient("rzp_test_MTN0sptGOn4ror", "FKGMv2t5q2P1m01u7QePvTsf");
+		
+		JSONObject jsonObject = new JSONObject();
+		
+		jsonObject.put("amount", amt*100);
+		jsonObject.put("currency", "INR");
+		jsonObject.put("receipt", "txn_45423");
+		
+		// creating new order
+		logger.info("Calling razopay api to create the order :");
+		Order order = razorpayClient.Orders.create(jsonObject);
+		logger.info("Razorpay response {} :", order);
+		
+		// save the order data in database
+		
+		
+		return order.toString();
 	}
 
 }

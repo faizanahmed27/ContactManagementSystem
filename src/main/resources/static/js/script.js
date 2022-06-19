@@ -67,3 +67,85 @@ const search=() =>{
        
     }
 };
+
+// razorpay client side integrated
+// first request - to server to create order
+
+const paymentStart = () =>{
+    console.log("Payment has been started...");
+    let amount = $("#payment_id").val();
+    console.log(amount);
+    if(amount=='' || amount==null){
+        //alert("Amount can not be blank or null");
+        swal("Failed !!", "Amount can not be blank or null !!", "error");
+        return;
+    }
+
+    // code
+    // we will use ajax to send request to server to create the order - use jquery ajax
+    $.ajax({
+        url: "/user/create/order",
+        data: JSON.stringify({ amount: amount, info:"order_request" }),
+        contentType:"application/json",
+        type:"POST",
+        dataType:"json",
+        success:function(response){
+            // invoked when success
+            console.log(response);
+            if(response.status=="created"){
+                // open payment form
+                let options={
+                    key:'rzp_test_MTN0sptGOn4ror',
+                    amount:response.amount,
+                    currency:response.currency,
+                    name:"Holiday Shope",
+                    description:"Payment",
+                    image:"https://holidayshope.com/public/logo.png",
+                    order_id:response.id,
+                    // handler function
+                    handler:function(response){
+                        console.log(response.razorpay_payment_id);
+                        console.log(response.razorpay_order_id);
+                        console.log(response.razorpay_signature);
+                        console.log('Payment successful !!');
+                        //alert("Congrats !! Payment successfull !!");
+                        swal("Good job!", "Congrats !! Payment successfull !!", "success");
+
+                    },
+                    "prefill": {
+                        "name": "",
+                        "email": "",
+                        "contact": ""
+                    },
+                    "notes": {
+                        "address": "Holiday Shope.COM"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    },
+
+                };
+
+                let rzp=new Razorpay(options);
+                rzp.on('payment.failed', function (response){
+                    console.log(response.error.code);
+                    console.log(response.error.description);
+                    console.log(response.error.source);
+                    console.log(response.error.step);
+                    console.log(response.error.reason);
+                    console.log(response.error.metadata.order_id);
+                    console.log(response.error.metadata.payment_id);
+                    //alert("Oops payment failed !!");
+                    swal("Failed !!", "Oops payment failed !!", "error");
+            });
+
+                rzp.open();
+            }
+        },
+       error:function(error){
+            // invoked when error
+            console.log(error);
+            alert("Something went wrong !!");
+        }
+    })
+}
