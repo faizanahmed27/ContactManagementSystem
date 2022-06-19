@@ -19,17 +19,17 @@
 						
 						<!-- message box  -->
     
-    		<!-- <div th:if=${session.message} class="container">
+    		<div th:if="${session.message}" class="container">
     		
     		<div class="alert alert-danger my-2 text-center" role="alert">
   			
-  			<span th:text="${session.message.content}"></span>
+  			<span th:text="${session.message}"></span>
   			
 			</div>
 			
 			<th:block th:text="${#session.removeAttribute('message')}"></th:block>
     		
-    		</div> -->
+    		</div>
 
 							<!-- email form -->
 							<h3 class="text-center m-3">Your Registered Email</h3>
